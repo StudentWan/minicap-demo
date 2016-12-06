@@ -1,0 +1,9 @@
+/.env
+/gdb.setup
+/libs/
+/obj/
+/libs/
+/prebuilt/
+/temp/
+/.DS_Store
+node_modules
