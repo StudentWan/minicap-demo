@@ -1,5 +1,5 @@
 <!doctype html>
-<canvas id="canvas" style="border: 1px solid red;"></canvas>
+<canvas id="canvas" style="border: 1px solid black;"></canvas>
 
 <script>
 /*jshint browser:true*/
@@ -11,6 +11,7 @@ var canvas = document.getElementById('canvas')
   , g = canvas.getContext('2d')
 
 var ws = new WebSocket('ws://localhost:9002', 'minicap')
+console.log(ws)
 ws.binaryType = 'blob'
 
 ws.onclose = function() {
