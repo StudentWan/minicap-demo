@@ -19,9 +19,17 @@ body {
 }
 
 .floatfont {
-    width:220px;
-    height:80px;
+    width: 220px;
+    height: 80px;
     display: table-cell;
     vertical-align: middle;
     text-align: center;
+}
+
+.topbar {
+    background: rgba(13, 21, 56, 0.36);
+    position: relative;
+    left: 220px;
+    width: 1220px;
+    height: 80px;
 }

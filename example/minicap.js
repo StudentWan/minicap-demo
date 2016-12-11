@@ -22,7 +22,7 @@ app.set('view engine', 'handlebars')
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', function(req, res) {
-  res.render('index')
+  res.render('phonedisplay')
 })
 
 var server = http.createServer(app)
@@ -59,7 +59,7 @@ wss.on('connection', function(ws) {
 
   function tryRead() {
     for (var chunk; (chunk = stream.read());) {
-      // console.info('chunk(length=%d)', chunk.length)
+      console.info('chunk(length=%d)', chunk.length)
       for (var cursor = 0, len = chunk.length; cursor < len;) {
         if (readBannerBytes < bannerLength) {
           switch (readBannerBytes) {
@@ -125,23 +125,20 @@ wss.on('connection', function(ws) {
           readBannerBytes += 1
 
           if (readBannerBytes === bannerLength) {
-            // console.log('banner', banner)
+            console.log('banner', banner)
           }
         }
         else if (readFrameBytes < 4) {
           frameBodyLength += (chunk[cursor] << (readFrameBytes * 8)) >>> 0
           cursor += 1
           readFrameBytes += 1
-          // console.info('headerbyte%d(val=%d)', readFrameBytes, frameBodyLength)
+          console.info('headerbyte%d(val=%d)', readFrameBytes, frameBodyLength)
         }
         else {
           if (len - cursor >= frameBodyLength) {
-            // console.info('bodyfin(len=%d,cursor=%d)', frameBodyLength, cursor)
+            console.info('bodyfin(len=%d,cursor=%d)', frameBodyLength, cursor)
 
-            frameBody = Buffer.concat([
-              frameBody
-            , chunk.slice(cursor, cursor + frameBodyLength)
-            ])
+            frameBody = Buffer.concat([frameBody, chunk.slice(cursor, cursor + frameBodyLength)])
 
             // Sanity check for JPG header, only here for debugging purposes.
             if (frameBody[0] !== 0xFF || frameBody[1] !== 0xD8) {
@@ -159,13 +156,8 @@ wss.on('connection', function(ws) {
             frameBody = new Buffer(0)
           }
           else {
-            // console.info('body(len=%d)', len - cursor)
-
-            frameBody = Buffer.concat([
-              frameBody
-            , chunk.slice(cursor, len)
-            ])
-
+            console.info('body(len=%d)', len - cursor)
+            frameBody = Buffer.concat([frameBody, chunk.slice(cursor, len)])
             frameBodyLength -= len - cursor
             readFrameBytes += len - cursor
             cursor = len
